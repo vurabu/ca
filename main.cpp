@@ -1,6 +1,6 @@
 #include "model.h"
 
 int main() {
-	run();
-	return 0;
+    run();
+    return 0;
 }

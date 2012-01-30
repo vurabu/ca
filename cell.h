@@ -8,11 +8,11 @@
 using namespace std;
 
 struct Cell {
-	uchar state;
-	uchar weight;
+    uchar state;
+    uchar weight;
 
-	Cell() {}
-	Cell(uchar s, uchar w) : state(s), weight(w) {}
+    Cell() {}
+    Cell(uchar s, uchar w) : state(s), weight(w) {}
 };
 
 extern const int field_width, field_height;
