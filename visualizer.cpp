@@ -47,8 +47,12 @@ void genBinary(size_t cur_it) {
                 + is_normal_cell ? 1 : 0;
         }
 #endif
-    
+   
+#if 1
+    int allsum = cell_count[field_height - 2][fiedl_width - 2];
+#else 
     int allsum = 0;
+#endif
     for(int i = 0; i < field_height; i++) {
         for(int j = 0; j < field_width; j++) {
 #if 0
