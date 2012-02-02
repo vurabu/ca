@@ -3,7 +3,7 @@
 #if 1
 const int field_width = 1000 ;
 const int field_height = 500 ;
-const size_t iteration_count = 1000;
+const size_t iteration_count = 10000;
 #else /* debug */
 const int field_width = 5 ;
 const int field_height = 5 ;
@@ -77,7 +77,7 @@ void doPrepareRow(int row_number) {
         if(IS_BARRIER(cells_field[cur_field][row_number][j])) {
             doBarrier(row_number, j);
         } else if(IS_SOURCE(cells_field[cur_field][row_number][j])) {
-            if(iteration % 1000 < 300 || false) {
+            if(iteration % 5000 < 400 || true) {
                 Cell& cell = cells_field[cur_field][row_number][j];
                 cell = generateCell(6, cell.weight);
             }

@@ -37,9 +37,12 @@ set style fill transparent solid 1 border
 set palette
 set hidden3d
 
+set border 803 front linetype -1 linewidth 1.000
 set ticslevel 0
-unset xtics ; unset ytics ; unset ztics
-unset border ; unset colorbox ; unset key
+#unset xtics ; unset ytics ; unset ztics
+#unset border ; unset colorbox ; unset key
+unset grid
+
 
 EOF
 
