@@ -1,9 +1,9 @@
 #include "model.h"
 
 #if 1
-const int field_width = 1000 ;
-const int field_height = 500 ;
-const size_t iteration_count = 10000;
+const int field_width = 600;
+const int field_height = 400;
+const size_t iteration_count = 1<<14;
 #else /* debug */
 const int field_width = 5 ;
 const int field_height = 5 ;
@@ -61,8 +61,8 @@ void init(const string& name_suffix) {
             SET_ASOURCE(cells_field[k][i][field_width-2]);
         }
 #if 1
-        for(int j = 200; j < 225; j++) {
-            for(int i = 200; i < 300 ; i++) SET_BARRIER(cells_field[k][i][j]);
+        for(int j = 100; j < 150; j++) {
+            for(int i = field_height / 2 - 25; i < field_height / 2 + 25 ; i++) SET_BARRIER(cells_field[k][i][j]);
         }
 #endif
     }
@@ -154,7 +154,7 @@ void run() {
 #pragma omp single
             {
                 swap(cur_field, next_field);
-                if(!(iteration & 15)) genBinary(iteration);
+                if(!(iteration & 0x1ff)) genBinary(iteration);
             }
             //genBinary(iteration);
             //print(iteration);

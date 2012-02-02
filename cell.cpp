@@ -48,8 +48,6 @@ void doImpact(Cell *cell) {
     int myclass = classByState[cell->state][cell->weight & CELL_WEIGHT_BITS];
     const vector<Cell>& available_states = statesByClass[myclass];
     *cell = available_states[rand()%available_states.size()];
-    //Cell new_cell_one = available_states[rand()%available_states.size()];
-    //Cell new_cell_one = available_states[rand()%available_states.size()];
     
     cell->weight |= prev_bits;
 }
@@ -98,17 +96,17 @@ void calcEqualClasses() {
     }
 }
 
+#define PI 3.141592
+#define EPS 1e-6
 
 int Cell::getWeight() { 
-    return __builtin_popcount(state) + (weight & CELL_WEIGHT_BITS); 
-    int res = 0;
-    for(int i = 0; i < 6; i++) if(state&(1<<i))
-        res += edge_dir[i][0];
-
-    if(res > 0)
-        return 0;
-    else if(res == 0)
-        return 7;
-    else
-        return 6;
+//    return __builtin_popcount(state) + (weight & CELL_WEIGHT_BITS); 
+    double x = 0;
+    double y = 0;
+    for(int i = 0; i < 6; i++)
+        if(state&(1<<i)) {
+            x += edge_dir[i][0];
+            y += edge_dir[i][1];
+        }
+    return round(3 * (PI + atan2(x + EPS, y + EPS) + EPS) / PI);
 }
