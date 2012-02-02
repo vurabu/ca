@@ -9,7 +9,7 @@
 extern const int field_width;
 extern const int field_height;
 extern Cell *cur_iteration;
-const int sum_radius = 10;
+const int sum_radius = 20;
 
 void saveVisualizationConfig(const string& name_suffix = "");
 bool addCell(size_t row, size_t col, double *sum);
