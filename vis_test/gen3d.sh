@@ -42,7 +42,7 @@ set hidden3d
 #set ticslevel 0
 
 unset surface
-set border 4063 front linetype -1 linewidth 1.000
+set border 895 front linetype -1 linewidth 1.000
 
 EOF
 

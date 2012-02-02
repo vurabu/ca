@@ -9,7 +9,6 @@ void saveVisualizationConfig(const string& new_name_suffix) {
         cerr << "Can't open last_run.cfg" << endl;
         return ;
     }
-    config_file << "NAME_SUFFIX=\"" << name_suffix << "\"" << endl;
     config_file << "FIELD_HEIGHT=" << field_height << endl;
     config_file << "FIELD_WIDTH=" << field_width << endl;
     config_file.close();
