@@ -61,6 +61,7 @@ void genBinary(size_t cur_it) {
                 + (is_normal_cell ? 1 : 0);
         }
 
+<<<<<<< HEAD
     //int allsum = cell_count[field_height - 1][field_width - 1];
 #if 1
     for(int ii = 0; ii < image_height; ii++) {
@@ -72,6 +73,20 @@ void genBinary(size_t cur_it) {
             int gi = min(field_height - 1, i + sum_radius);
             int lj = max(0, j - sum_radius);
             int gj = min(field_width - 1, j + sum_radius);
+=======
+#if 0
+    for(int i = 0; i < image_height; i++) {
+        for(int j = 0; j < image_width; j++) {
+            int row_start =   i   * field_height / image_height - sum_radius;
+            int row_end   = (i+1) * field_height / image_height + sum_radius;
+            int col_start =   j   * field_width  / image_width  - sum_radius;
+            int col_end   = (j+1) * field_width  / image_width  + sum_radius;
+
+            int li = max(0, row_start);
+            int gi = min(field_height - 1, row_end);
+            int lj = max(0, j - col_start);
+            int gj = min(field_width - 1, j + col_end);
+>>>>>>> 5e4e16cc0c4d399c3d9b6751edd86ef6a692658f
 
             double weight_sum = psums[gi][gj] + psums[li][lj] - psums[li][gj] - psums[gi][lj];
             int weight_count  = cell_count[gi][gj] + cell_count[li][lj] - cell_count[li][gj] - cell_count[gi][lj];
@@ -92,19 +107,14 @@ void genBinary(size_t cur_it) {
             int lj = max(0, j - sum_radius);
             int gj = min(field_width - 1, j + sum_radius);
 
-            double weight_sum = psums[gi][gj] + psums[li][lj] - psums[li][gj] - psums[gi][lj];
-            int weight_count  = cell_count[gi][gj] + cell_count[li][lj] - cell_count[li][gj] - cell_count[gi][lj];
+            double weight_avg = double(psums[gi][gj] + psums[li][lj] - psums[li][gj] - psums[gi][lj])
+                / (cell_count[gi][gj] + cell_count[li][lj] - cell_count[li][gj] - cell_count[gi][lj]);
 
-            if(weight_count)
-                weight_sum /= weight_count;
-            else
-                weight_sum = 0;
 
-            fwrite(&weight_sum, sizeof(double), 1, cur_it_file);
+            fwrite(&weight_avg, sizeof(double), 1, cur_it_file);
         }
     }
 #endif
-    //fprintf(stderr, "sum = %d\n", allsum);
     //cerr << "count = " << cell_count[field_height-1][field_width-1] << endl;
 
     fclose(cur_it_file);
