@@ -11,5 +11,6 @@ extern const int field_height;
 extern Cell *cur_iteration;
 const int sum_radius = 10;
 
+void saveVisualizationConfig(const string& name_suffix = "");
 bool addCell(size_t row, size_t col, double *sum);
 void genBinary(size_t cur_it);

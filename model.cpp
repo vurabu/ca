@@ -1,9 +1,9 @@
 #include "model.h"
 
 #if 1
-const int field_width = 500 ;
-const int field_height = 200 ;
-const size_t iteration_count = 4000;
+const int field_width = 100 ;
+const int field_height = 100 ;
+const size_t iteration_count = 1000;
 #else /* debug */
 const int field_width = 5 ;
 const int field_height = 5 ;
@@ -22,8 +22,9 @@ void print(int cur_it) {
     }
 }
 
-void init() {
+void init(const string& name_suffix) {
     calcEqualClasses();
+    saveVisualizationConfig(name_suffix);
     
 #if 1
     const int t = 0;
@@ -55,9 +56,11 @@ void init() {
             SET_SOURCE(cells_field[k][i][1]);
             SET_ASOURCE(cells_field[k][i][field_width-2]);
         }
+#if 0
         for(int j = 200; j < 225; j++) {
-            for(int i = 50; i < 150; i++) SET_BARRIER(cells_field[k][i][j]);
+            for(int i = 400; i < 600; i++) SET_BARRIER(cells_field[k][i][j]);
         }
+#endif
     }
 #endif
 }
@@ -74,7 +77,7 @@ void doPrepareRow(int row_number) {
         if(IS_BARRIER(cells_field[cur_field][row_number][j])) {
             doBarrier(row_number, j);
         } else if(IS_SOURCE(cells_field[cur_field][row_number][j])) {
-            if(iteration % 2000 < 300 || true) {
+            if(iteration % 1000 < 300 || false) {
                 Cell& cell = cells_field[cur_field][row_number][j];
                 cell = generateCell(6, cell.weight);
             }

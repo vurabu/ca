@@ -97,7 +97,7 @@ void calcEqualClasses() {
 
 
 int Cell::getWeight() { 
-    //return __builtin_popcount(state) + (weight & CELL_WEIGHT_BITS); 
+    return __builtin_popcount(state) + (weight & CELL_WEIGHT_BITS); 
     int res = 0;
     for(int i = 0; i < 6; i++) if(state&(1<<i))
         res += edge_dir[i][0];

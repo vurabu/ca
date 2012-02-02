@@ -25,21 +25,24 @@ cat > ${OUTPUT_NAME_PLT} << EOF
 set terminal gif animate  # set output format: PNG animated picture
 set xrange[0:${FIELD_WIDTH}]          # set X scale range            
 set yrange[0:${FIELD_HEIGHT}]          # set Y scale range            
-set zrange[0:5]
-set cbrange[0:5]          # set color bar range (Z scale)
+set zrange[0:6]  noreverse nowriteback
+set cbrange[0:6]          # set color bar range (Z scale)
 set output "${OUTPUT_NAME_GIF}"    # set output file name
 
 set pm3d
 set style line 3  linetype -1 linewidth 0.01
 set pm3d depthorder hidden3d 3
 set style fill  transparent solid 1 border  
-set style data lines
+#set style data lines
 set palette
 set hidden3d
 
-set ticslevel 0
-unset xtics ; unset ytics ; unset ztics
-unset border ; unset colorbox ; unset key
+#unset xtics ; unset ytics ; unset ztics
+#unset border ; unset colorbox ; unset key
+#set ticslevel 0
+
+unset surface
+set border 4063 front linetype -1 linewidth 1.000
 
 EOF
 
