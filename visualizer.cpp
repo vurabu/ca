@@ -61,7 +61,6 @@ void genBinary(size_t cur_it) {
                 + (is_normal_cell ? 1 : 0);
         }
 
-<<<<<<< HEAD
     //int allsum = cell_count[field_height - 1][field_width - 1];
 #if 1
     for(int ii = 0; ii < image_height; ii++) {
@@ -73,20 +72,6 @@ void genBinary(size_t cur_it) {
             int gi = min(field_height - 1, i + sum_radius);
             int lj = max(0, j - sum_radius);
             int gj = min(field_width - 1, j + sum_radius);
-=======
-#if 0
-    for(int i = 0; i < image_height; i++) {
-        for(int j = 0; j < image_width; j++) {
-            int row_start =   i   * field_height / image_height - sum_radius;
-            int row_end   = (i+1) * field_height / image_height + sum_radius;
-            int col_start =   j   * field_width  / image_width  - sum_radius;
-            int col_end   = (j+1) * field_width  / image_width  + sum_radius;
-
-            int li = max(0, row_start);
-            int gi = min(field_height - 1, row_end);
-            int lj = max(0, j - col_start);
-            int gj = min(field_width - 1, j + col_end);
->>>>>>> 5e4e16cc0c4d399c3d9b6751edd86ef6a692658f
 
             double weight_sum = psums[gi][gj] + psums[li][lj] - psums[li][gj] - psums[gi][lj];
             int weight_count  = cell_count[gi][gj] + cell_count[li][lj] - cell_count[li][gj] - cell_count[gi][lj];

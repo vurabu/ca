@@ -38,6 +38,10 @@ void init(const string& name_suffix) {
                 cells_field[0][i][j] = Cell(cell_state, cell_weight);
                 break;
             }
+            if(j > field_width/2) {
+                SET_AENV(cells_field[0][i][j]);
+                SET_AENV(cells_field[1][i][j]);
+            }
         }
 #else /* debug */
     cells_field[0][2][2] = Cell(63, 0);

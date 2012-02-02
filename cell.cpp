@@ -48,6 +48,9 @@ void doImpact(Cell *cell) {
     int myclass = classByState[cell->state][cell->weight & CELL_WEIGHT_BITS];
     const vector<Cell>& available_states = statesByClass[myclass];
     *cell = available_states[rand()%available_states.size()];
+    //Cell new_cell_one = available_states[rand()%available_states.size()];
+    //Cell new_cell_one = available_states[rand()%available_states.size()];
+    
     cell->weight |= prev_bits;
 }
 
