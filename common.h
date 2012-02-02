@@ -2,6 +2,8 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstdlib>
+#include <cstring>
 #include <cassert>
 #include <algorithm>
 #include <iostream>

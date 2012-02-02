@@ -22,7 +22,7 @@ OUTPUT_NAME_GIF="movie${NAME_SUFFIX}.gif"
 echo "width = ${FIELD_WIDTH}, height = ${FIELD_HEIGHT}"
 
 cat > ${OUTPUT_NAME_PLT} << EOF
-set terminal gif animate  # set output format: PNG animated picture
+set terminal gif animate # set output format: PNG animated picture
 set xrange[0:${FIELD_WIDTH}]          # set X scale range            
 set yrange[0:${FIELD_HEIGHT}]          # set Y scale range            
 set zrange[0:6]  noreverse nowriteback

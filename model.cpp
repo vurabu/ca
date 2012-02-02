@@ -1,8 +1,8 @@
 #include "model.h"
 
 #if 1
-const int field_width = 100 ;
-const int field_height = 100 ;
+const int field_width = 1000 ;
+const int field_height = 500 ;
 const size_t iteration_count = 1000;
 #else /* debug */
 const int field_width = 5 ;
@@ -56,9 +56,9 @@ void init(const string& name_suffix) {
             SET_SOURCE(cells_field[k][i][1]);
             SET_ASOURCE(cells_field[k][i][field_width-2]);
         }
-#if 0
+#if 1
         for(int j = 200; j < 225; j++) {
-            for(int i = 400; i < 600; i++) SET_BARRIER(cells_field[k][i][j]);
+            for(int i = 200; i < 300 ; i++) SET_BARRIER(cells_field[k][i][j]);
         }
 #endif
     }
