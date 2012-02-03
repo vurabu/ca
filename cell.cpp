@@ -47,9 +47,14 @@ void doImpact(Cell *cell) {
     uchar prev_bits = cell->weight & ~CELL_WEIGHT_BITS;
     int myclass = classByState[cell->state][cell->weight & CELL_WEIGHT_BITS];
     const vector<Cell>& available_states = statesByClass[myclass];
+
+#if 1
     *cell = available_states[rand()%available_states.size()];
-    //Cell new_cell_one = available_states[rand()%available_states.size()];
-    //Cell new_cell_one = available_states[rand()%available_states.size()];
+#else
+    Cell new_cell_one = available_states[rand()%available_states.size()];
+    Cell new_cell_two = available_states[rand()%available_states.size()];
+    *cell = ((IS_AENV(*cell) && new_cell_one.weight > new_cell_two.weight) || (!IS_AENV(*cell) && new_cell_one.weight < new_cell_two.weight)) ?  new_cell_one : new_cell_two;
+#endif
     
     cell->weight |= prev_bits;
 }
@@ -89,7 +94,7 @@ void calcEqualClasses() {
     for(EqType::iterator it = eq_classes.begin(); it != eq_classes.end(); ++it) {
         for(StateType::iterator jt = it->second.begin(); jt != it->second.end(); ++jt) {
             for(uchar i=0; i<8; i++) {
-                int myweight = __builtin_popcount(*jt) + i;
+                int myweight = bitcount(*jt) + i;
                 classByState[*jt][i] = classes_count + myweight;
                 statesByClass[classes_count + myweight].push_back(Cell(*jt, i));
             }
@@ -100,7 +105,7 @@ void calcEqualClasses() {
 
 
 int Cell::getWeight() { 
-    return __builtin_popcount(state) + (weight & CELL_WEIGHT_BITS); 
+    return bitcount(state) + (weight & CELL_WEIGHT_BITS); 
     int res = 0;
     for(int i = 0; i < 6; i++) if(state&(1<<i))
         res += edge_dir[i][0];
