@@ -4,7 +4,7 @@ CONFIG_FILE="./last_run.cfg"
 NAME_SUFFIX=""
 
 if [ -n "$1" ]; then
-NAME_SUFFIX=$1
+    NAME_SUFFIX=$1
 fi
 
 OUTPUT_FILES="*${NAME_SUFFIX}.bin"
@@ -25,8 +25,8 @@ cat > ${OUTPUT_NAME_PLT} << EOF
 set terminal gif animate # set output format: PNG animated picture
 set xrange[0:${FIELD_WIDTH}] # set X scale range
 set yrange[0:${FIELD_HEIGHT}] # set Y scale range
-set zrange[0:5]
-set cbrange[0:5] # set color bar range (Z scale)
+set zrange[0:7]
+set cbrange[0:7] # set color bar range (Z scale)
 set output "${OUTPUT_NAME_GIF}" # set output file name
 
 set pm3d
@@ -37,11 +37,13 @@ set style fill transparent solid 1 border
 set palette
 set hidden3d
 
-set border 803 front linetype -1 linewidth 1.000
+set border 895 front linetype -1 linewidth 1.000
 set ticslevel 0
 #unset xtics ; unset ytics ; unset ztics
 #unset border ; unset colorbox ; unset key
 unset grid
+
+set title "barrier"
 
 
 EOF

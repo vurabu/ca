@@ -3,7 +3,7 @@
 #if 1
 const int field_width = 1000 ;
 const int field_height = 500 ;
-const size_t iteration_count = 10000;
+const size_t iteration_count = 5000;
 #else /* debug */
 const int field_width = 5 ;
 const int field_height = 5 ;
@@ -23,6 +23,7 @@ void print(int cur_it) {
 }
 
 void init(const string& name_suffix) {
+    initBitcount();
     calcEqualClasses();
     saveVisualizationConfig(name_suffix);
     
@@ -31,9 +32,10 @@ void init(const string& name_suffix) {
     for(int i = 1+t; i < field_height - 1-t; i++)
         for(int j = 1+t; j < field_width - 1-t; j++) {
             int req_weight = 2;
+            //if(j > field_width/2) req_weight = 3;
             while(true) {
                 int cell_state = rand()&((1<<6)-1);
-                int cell_weight = req_weight - __builtin_popcount(cell_state);
+                int cell_weight = req_weight - bitcount(cell_state);
                 if(cell_weight < 0) continue;
                 cells_field[0][i][j] = Cell(cell_state, cell_weight);
                 break;
@@ -56,10 +58,14 @@ void init(const string& name_suffix) {
             SET_BARRIER(cells_field[k][i][0]);
             SET_BARRIER(cells_field[k][i][field_width-1]);
         }
+#if 0
+        for(int i = 0; i <= 200; i++) { for(int j = 0; j <= i; j++) SET_SOURCE(cells_field[k][200-i][i-j]); }
+#else
         for(int i = 0; i < field_height; i++) {
             SET_SOURCE(cells_field[k][i][1]);
             SET_ASOURCE(cells_field[k][i][field_width-2]);
         }
+#endif
 #if 1
         for(int j = 200; j < 225; j++) {
             for(int i = 200; i < 300 ; i++) SET_BARRIER(cells_field[k][i][j]);
@@ -76,14 +82,14 @@ void init(const string& name_suffix) {
 size_t iteration;
 int cur_field, next_field;
 
-void doPrepareRow(int row_number) {
+void doPrepareRow(const int row_number) {
     for(int j = 0; j < field_width; j++) {
         if(IS_BARRIER(cells_field[cur_field][row_number][j])) {
             doBarrier(row_number, j);
         } else if(IS_SOURCE(cells_field[cur_field][row_number][j])) {
-            if(iteration % 5000 < 400 || true) {
+            if(iteration % 2000 < 300 || false) {
                 Cell& cell = cells_field[cur_field][row_number][j];
-                cell = generateCell(6, cell.weight);
+                cell = generateCell(5, cell.weight);
             }
         } else if(IS_ASOURCE(cells_field[cur_field][row_number][j])) {
             Cell& cell = cells_field[cur_field][row_number][j];
@@ -92,7 +98,7 @@ void doPrepareRow(int row_number) {
     }
 }
 
-void doShifRow(int row_number) {
+void doShifRow(const int row_number) {
     for(int j = 0; j < field_width; j++) {
         doShift(row_number, j);
         doImpact(&cells_field[next_field][row_number][j]);
@@ -106,58 +112,18 @@ void doImpactRow(int) {
 void run() {
     cur_field = 0;
     next_field = 1;
-    #pragma omp parallel
-    {
-        for(iteration = 0; iteration < iteration_count; iteration++) {
-            cur_iteration = &cells_field[cur_field][0][0];
-            next_iteration = &cells_field[next_field][0][0];
-#if 0
-            /*
-               for(int i = 0; i < field_height; i++) {
-               if(iteration % 1000 < 300) {
-               cur_iteration[field_width * i + 1] = generateCell(5);
-               }
-               cur_iteration[field_width * i + field_width - 2] = generateCell(2);
-               }
-             */
-            for(int i = 0; i < field_width; i++) {
-                doBarrier(0, i);
-                doBarrier(field_height - 1, i);
-            }
-            for(int i = 0; i < field_height; i++) {
-                doBarrier(i, 0);
-                doBarrier(i, field_width - 1);
-            }
-            for(int i = 1; i < field_height - 1; i++)
-                for(int j = 1; j < field_width - 1; j++) {
-                    doShift(i, j);
-                    doImpact(&cells_field[next_field][i][j]);
-                }
-#elsif 0
-            for(int i = 0; i < field_height; i++) doPrepareRow(i);
-            for(int i = 0; i < field_height; i++) doShifRow(i);
-#else
-#pragma omp single
-            {
-                doPrepareRow(0);
-            }
-#pragma omp for
-            for(int i = 0; i < field_height - 1; i++) {
-                doPrepareRow(i + 1);
-                doShifRow(i);
-            }
-#pragma omp single
-            {
-                doShifRow(field_height - 1);
-            }
-#endif
-#pragma omp single
-            {
-                swap(cur_field, next_field);
-                if(!(iteration & 15)) genBinary(iteration);
-            }
-            //genBinary(iteration);
-            //print(iteration);
+    for(iteration = 0; iteration < iteration_count; iteration++) {
+        cur_iteration = &cells_field[cur_field][0][0];
+        next_iteration = &cells_field[next_field][0][0];
+        doPrepareRow(0);
+        for(int i = 0; i < field_height - 1; i++) {
+            doPrepareRow(i + 1);
+            doShifRow(i);
         }
+        doShifRow(field_height - 1);
+        swap(cur_field, next_field);
+        if(!(iteration & 0xf)) genBinary(iteration);
     }
+    //genBinary(iteration);
+    //print(iteration);
 }

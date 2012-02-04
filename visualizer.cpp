@@ -58,7 +58,7 @@ void genBinary(size_t cur_it) {
                 + (is_normal_cell ? cell_weight : 0);
 
             cell_count[i][j] = cell_count[i - 1][j] + cell_count[i][j - 1] - cell_count[i - 1][j - 1]
-                + (is_normal_cell ? 1 : 0);
+                + 1;
         }
 
     //int allsum = cell_count[field_height - 1][field_width - 1];
