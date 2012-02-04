@@ -67,8 +67,8 @@ void init(const string& name_suffix) {
         }
 #endif
 #if 1
-        for(int j = 200; j < 225; j++) {
-            for(int i = 200; i < 300 ; i++) SET_BARRIER(cells_field[k][i][j]);
+        for(int j = 100; j < 150; j++) {
+            for(int i = field_height / 2 - 25; i < field_height / 2 + 25 ; i++) SET_BARRIER(cells_field[k][i][j]);
         }
 #endif
     }
@@ -112,13 +112,31 @@ void doImpactRow(int) {
 void run() {
     cur_field = 0;
     next_field = 1;
-    for(iteration = 0; iteration < iteration_count; iteration++) {
-        cur_iteration = &cells_field[cur_field][0][0];
-        next_iteration = &cells_field[next_field][0][0];
-        doPrepareRow(0);
-        for(int i = 0; i < field_height - 1; i++) {
-            doPrepareRow(i + 1);
-            doShifRow(i);
+    #pragma omp parallel
+    {
+        for(iteration = 0; iteration < iteration_count; iteration++) {
+            cur_iteration = &cells_field[cur_field][0][0];
+            next_iteration = &cells_field[next_field][0][0];
+#pragma omp single
+            {
+                doPrepareRow(0);
+            }
+#pragma omp for
+            for(int i = 0; i < field_height - 1; i++) {
+                doPrepareRow(i + 1);
+                doShifRow(i);
+            }
+#pragma omp single
+            {
+                doShifRow(field_height - 1);
+            }
+#pragma omp single
+            {
+                swap(cur_field, next_field);
+                if(!(iteration & 0x1ff)) genBinary(iteration);
+            }
+            //genBinary(iteration);
+            //print(iteration);
         }
         doShifRow(field_height - 1);
         swap(cur_field, next_field);

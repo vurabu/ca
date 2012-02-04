@@ -2,6 +2,7 @@ CC=gcc
 CXX=g++
 #CFLAGS=-O0 -g -Wall -Wextra -Wshadow
 CFLAGS=-O3 -march=native -Wall -Wextra -Wshadow -fopenmp
+LDFLAGS=-lm
 CXXFLAGS=${CFLAGS}
 TARGET=ca.out
 

@@ -103,17 +103,17 @@ void calcEqualClasses() {
     }
 }
 
+#define PI 3.141592
+#define EPS 1e-6
 
 int Cell::getWeight() { 
     return bitcount(state) + (weight & CELL_WEIGHT_BITS); 
-    int res = 0;
-    for(int i = 0; i < 6; i++) if(state&(1<<i))
-        res += edge_dir[i][0];
-
-    if(res > 0)
-        return 0;
-    else if(res == 0)
-        return 7;
-    else
-        return 6;
+    double x = 0;
+    double y = 0;
+    for(int i = 0; i < 6; i++)
+        if(state&(1<<i)) {
+            x += edge_dir[i][0];
+            y += edge_dir[i][1];
+        }
+    return round(3 * (PI + atan2(x + EPS, y + EPS) + EPS) / PI);
 }
