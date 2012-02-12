@@ -6,9 +6,10 @@ LDFLAGS=-lm
 CXXFLAGS=${CFLAGS}
 TARGET=ca.out
 
-${TARGET}: main.o model.o cell.o visualizer.o common.o
+${TARGET}: main.o model.o cell.o visualizer.o utils.o
 	${CXX} ${CXXFLAGS} $^ -o $@
 
 clean:
 	rm -f *.o ${TARGET}
 	rm -f *.bin
+# vim:set noet:

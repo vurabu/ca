@@ -1,8 +1,9 @@
 #pragma once
 
-#include "common.h"
 #include "cell.h"
 #include "visualizer.h"
+#include "common.h"
+#include "utils.h"
 
 extern const int field_width;
 extern const int field_height;

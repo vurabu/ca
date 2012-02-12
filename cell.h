@@ -1,8 +1,10 @@
 #pragma once
 
-#include "common.h"
 #include <vector>
 #include <map>
+
+#include "common.h"
+#include "utils.h"
 
 struct Cell {
     uchar state;
